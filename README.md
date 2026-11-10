@@ -47,9 +47,20 @@ sudah memuat security headers (CSP, X-Frame-Options, dll).
 - `backend-rust/` — API Rust Axum + sqlx PostgreSQL
 - `docs/` — dokumen UTS Soal 1–4, 6–10
 
+## Desain — Google Stitch (v2.0)
+
+Antarmuka versi 2.0 dirancang dengan **Google Stitch**, project
+"LaporLampung Citizen Reporting App":
+https://stitch.withgoogle.com/projects/11599614112696964278
+(6 screens: Dashboard, Daftar Laporan, Detail Laporan, Buat Laporan,
+Masuk, dan design-system board — Material Design 3, Primary #0B5FA5,
+Navy #083D6B, Gold #F2B705, Inter, kartu radius 16px.)
+
 ## Footer
 
 Copyright©2026 by Muhammad Arya Putra dan Dr. Erliyan Redy Susanto, M.Kom
 
-Logo: Pemerintah Kota Bandar Lampung (bandarlampungkota.go.id) dan
-Universitas Teknokrat Indonesia (teknokrat.ac.id)
+Logo: file logo persis yang diberikan pemilik proyek — Lambang Provinsi
+Lampung (Pemda) dan Logo Universitas Teknokrat Indonesia — tertanam
+langsung di `app/index.html` (data URI, dari file asli di
+`app/assets/logo-pemda-full.png` dan `logo-teknokrat-full.png`).
