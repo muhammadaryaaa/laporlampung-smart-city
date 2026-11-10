@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaporLampung — Pelaporan Infrastruktur Kota Bandar Lampung</title>
+<meta name="description" content="LaporLampung: aplikasi Smart City untuk pelaporan jalan rusak, lampu jalan, sampah, drainase, dan fasilitas publik di Kota Bandar Lampung.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="assets/logo-pemda.png">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logos" aria-label="Logo institusi">
+      <img id="logoPemda" src="https://bandarlampungkota.go.id/new/images/logo_bdl.png" alt="Logo Pemerintah Kota Bandar Lampung" width="52" height="52">
+      <img id="logoTeknokrat" src="https://teknokrat.ac.id/wp-content/uploads/2022/04/UNIVERSITASTEKNOKRAT-e1647677057867-768x774-min.png" alt="Logo Universitas Teknokrat Indonesia" width="52" height="52">
+    </div>
+    <div class="brand">
+      <h1>LaporLampung</h1>
+      <p>Lapor Cepat, Kota Terawat — Kota Bandar Lampung</p>
+    </div>
+    <nav class="main-nav" aria-label="Navigasi utama">
+      <button type="button" data-nav="dashboard" class="nav-btn active">Dashboard</button>
+      <button type="button" data-nav="reports" class="nav-btn">Laporan</button>
+      <button type="button" data-nav="create" class="nav-btn">Buat Laporan</button>
+      <span id="userBadge" class="user-badge"></span>
+      <button type="button" id="loginBtn" class="btn btn-outline">Masuk</button>
+      <button type="button" id="logoutBtn" class="btn btn-outline hidden">Keluar</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- LOGIN -->
+  <section id="view-login" class="view hidden" aria-labelledby="loginTitle">
+    <div class="card narrow">
+      <h2 id="loginTitle">Masuk ke LaporLampung</h2>
+      <p class="muted">Akun demo (untuk pengujian UTS):<br>
+      Warga: <strong>warga@laporlampung.id / Warga123!</strong><br>
+      Admin Pemda: <strong>admin@laporlampung.id / Admin123!</strong></p>
+      <form id="loginForm" novalidate>
+        <label>Email <input type="email" id="loginEmail" required maxlength="120" autocomplete="email" placeholder="nama@email.id"></label>
+        <label>Kata Sandi <input type="password" id="loginPassword" required minlength="8" maxlength="72" autocomplete="current-password" placeholder="Minimal 8 karakter"></label>
+        <p id="loginError" class="error" role="alert"></p>
+        <p id="loginAttempts" class="muted"></p>
+        <button class="btn btn-primary" type="submit">Masuk</button>
+        <button class="btn" type="button" id="cancelLogin">Batal</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="view-dashboard" class="view" aria-labelledby="dashTitle">
+    <h2 id="dashTitle">Dashboard Kota</h2>
+    <div class="stats" id="statsCards"></div>
+    <div class="card">
+      <h3>Laporan Terbaru</h3>
+      <div id="recentList" class="list"></div>
+    </div>
+  </section>
+
+  <!-- REPORTS -->
+  <section id="view-reports" class="view hidden" aria-labelledby="reportsTitle">
+    <h2 id="reportsTitle">Semua Laporan Warga</h2>
+    <div class="filters card">
+      <label>Cari <input type="search" id="searchInput" maxlength="100" placeholder="Judul, lokasi, deskripsi..."></label>
+      <label>Kategori
+        <select id="filterCategory"><option value="">Semua Kategori</option></select>
+      </label>
+      <label>Status
+        <select id="filterStatus"><option value="">Semua Status</option><option>Baru</option><option>Diverifikasi</option><option>Diproses</option><option>Selesai</option><option>Ditolak</option></select>
+      </label>
+      <label>Kecamatan
+        <select id="filterDistrict"><option value="">Semua Kecamatan</option></select>
+      </label>
+      <button type="button" id="resetFilter" class="btn">Reset Filter</button>
+    </div>
+    <p id="resultCount" class="muted" aria-live="polite"></p>
+    <div id="reportList" class="list"></div>
+  </section>
+
+  <!-- CREATE -->
+  <section id="view-create" class="view hidden" aria-labelledby="createTitle">
+    <div class="card">
+      <h2 id="createTitle">Buat Laporan Baru</h2>
+      <form id="reportForm" novalidate>
+        <label>Judul Laporan * <input type="text" id="fTitle" required minlength="10" maxlength="100" placeholder="Contoh: Jalan berlubang di depan pasar">
+        <small><span id="titleCount">0</span>/100 karakter, minimal 10</small></label>
+        <label>Kategori *
+          <select id="fCategory" required><option value="">Pilih kategori</option></select>
+        </label>
+        <label>Kecamatan *
+          <select id="fDistrict" required><option value="">Pilih kecamatan</option></select>
+        </label>
+        <label>Lokasi Detail * <input type="text" id="fLocation" required minlength="5" maxlength="150" placeholder="Nama jalan, patokan, kelurahan"></label>
+        <label>Prioritas *
+          <select id="fPriority" required><option value="">Pilih prioritas</option><option>Rendah</option><option>Sedang</option><option>Tinggi</option><option>Darurat</option></select>
+        </label>
+        <label>Deskripsi * <textarea id="fDescription" required minlength="20" maxlength="500" rows="5" placeholder="Jelaskan kondisi, sejak kapan, dan dampaknya bagi warga..."></textarea>
+        <small><span id="descCount">0</span>/500 karakter, minimal 20</small></label>
+        <p id="formError" class="error" role="alert"></p>
+        <button class="btn btn-primary" type="submit">Kirim Laporan</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- DETAIL -->
+  <section id="view-detail" class="view hidden" aria-labelledby="detailTitle">
+    <div class="card" id="detailCard"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>Copyright©2026 by Muhammad Arya Putra dan Dr. Erliyan Redy Susanto, M.Kom</p>
+  <p class="muted">LaporLampung — Ujian Tengah Semester, Proyek Pengembangan Sistem Informasi, Universitas Teknokrat Indonesia. Backend Rust (Axum) + PostgreSQL.</p>
+  <p class="muted">Sumber logo: Pemerintah Kota Bandar Lampung (bandarlampungkota.go.id) dan Universitas Teknokrat Indonesia (teknokrat.ac.id)</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
